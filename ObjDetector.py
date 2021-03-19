@@ -1,25 +1,24 @@
+import datetime
+import os
 import time
 
 import torch
-from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 from torch.autograd import Variable
-from PIL import Image
-import os
-import time
-import datetime
+from torch.utils.data import DataLoader
 
 from PyTorchYOLOv3.models import Darknet
-from PyTorchYOLOv3.utils.datasets import ImageFolder
 from PyTorchYOLOv3.utils.augmentations import DEFAULT_TRANSFORMS, Resize
+from PyTorchYOLOv3.utils.datasets import ImageFolder
 from PyTorchYOLOv3.utils.utils import load_classes, non_max_suppression
+
 
 def detections(image_folder, batch_size):
     print("Getting Yolo Detections")
     YOLO_HOME = "/home/hnkulkarni/nn/opensource/PyTorchYOLOv3"
     model_def = os.path.join(YOLO_HOME, "config/yolov3.cfg")
-    weights_path = os.path.join(YOLO_HOME,"weights/yolov3.weights")
-    class_path = os.path.join(YOLO_HOME,"data/coco.names")
+    weights_path = os.path.join(YOLO_HOME, "weights/yolov3.weights")
+    class_path = os.path.join(YOLO_HOME, "data/coco.names")
     nms_thres = 0.4
     img_size = 416
     conf_thres = 0.8
@@ -39,7 +38,7 @@ def detections(image_folder, batch_size):
             transforms.Compose([DEFAULT_TRANSFORMS, Resize(img_size)])),
         batch_size=batch_size,
         shuffle=False,
-        num_workers=4,
+        num_workers=8,
     )
 
     classes = load_classes(class_path)  # Extracts class labels from file
@@ -70,5 +69,3 @@ def detections(image_folder, batch_size):
         img_detections.extend(detections)
 
     return imgs, img_detections
-
-
