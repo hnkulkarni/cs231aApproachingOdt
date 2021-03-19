@@ -15,7 +15,7 @@ from PyTorchYOLOv3.utils.datasets import ImageFolder
 from PyTorchYOLOv3.utils.utils import load_classes, non_max_suppression, rescale_boxes
 from cs231aApproachingOdt import utils as myutils
 
-def detections(image_folder, batch_size):
+def detections(image_folder, batch_size, size=(640, 480)):
     print("Getting Yolo Detections")
     YOLO_HOME = "/home/hnkulkarni/nn/opensource/PyTorchYOLOv3"
     model_def = os.path.join(YOLO_HOME, "config/yolov3.cfg")
@@ -71,7 +71,7 @@ def detections(image_folder, batch_size):
         img_detections.extend(detections)
 
     imgs, img_detections = scale_detections(imgs=imgs, img_detections=img_detections,
-                                            img_size=img_size, size=(640, 480))
+                                            img_size=img_size, size=size)
     return imgs, img_detections
 
 def scale_detections(imgs, img_detections, img_size, size=(640, 480)):

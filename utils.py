@@ -4,7 +4,6 @@ import os
 
 import cv2
 import natsort
-import PIL import Image
 
 def files_from_folder(folderpath, ext):
     files = [f for f in glob.glob(os.path.join(folderpath, f"*{ext}"))]
@@ -28,5 +27,8 @@ def unique_permutations(list1, list2):
     result = list(itertools.product(list1, list2))
     return result
 
-
+def load_resize(f, size):
+    img = load(f)
+    img = cv2.resize(img, size)
+    return img
 
