@@ -1,17 +1,19 @@
 import datetime
 import os
 import time
+import numpy as np
 
 import torch
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
+from PIL import Image
 
 from PyTorchYOLOv3.models import Darknet
 from PyTorchYOLOv3.utils.augmentations import DEFAULT_TRANSFORMS, Resize
 from PyTorchYOLOv3.utils.datasets import ImageFolder
-from PyTorchYOLOv3.utils.utils import load_classes, non_max_suppression
-
+from PyTorchYOLOv3.utils.utils import load_classes, non_max_suppression, rescale_boxes
+from cs231aApproachingOdt import utils as myutils
 
 def detections(image_folder, batch_size):
     print("Getting Yolo Detections")
@@ -67,5 +69,23 @@ def detections(image_folder, batch_size):
         # Append image paths and detections
         imgs.extend(img_paths)
         img_detections.extend(detections)
+
+    imgs, img_detections = scale_detections(imgs=imgs, img_detections=img_detections,
+                                            img_size=img_size, size=(640, 480))
+    return imgs, img_detections
+
+def scale_detections(imgs, img_detections, img_size, size=(640, 480)):
+
+    print(f"Resizing detections to {size}")
+
+    pil_img = Image.open(imgs[0])
+    pil_img = pil_img.resize(size)
+    img = np.array(pil_img)
+
+    for img_i, (path, detections) in enumerate(zip(imgs, img_detections)):
+        if detections is not None:
+            # Rescale boxes to original image
+            detections = rescale_boxes(detections, img_size, img.shape[:2])
+            img_detections[img_i] = detections
 
     return imgs, img_detections
