@@ -4,6 +4,7 @@ import os
 
 import cv2
 import natsort
+import pickle
 
 def files_from_folder(folderpath, ext):
     files = [f for f in glob.glob(os.path.join(folderpath, f"*{ext}"))]
@@ -37,5 +38,14 @@ def bgr2rgb(img):
     b, g, r = cv2.split(img)  # get b,g,r
     rgb_img = cv2.merge([r, g, b])  # switch it to rgb
     return rgb_img
+
+
+def pickle_save(filepath, v):
+    with open(filepath, 'wb') as handle:
+        pickle.dump(v, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def pickle_load(filepath):
+    with open(filepath, 'rb') as handle:
+        return pickle.load(handle)
 
 
