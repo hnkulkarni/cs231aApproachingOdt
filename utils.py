@@ -4,7 +4,7 @@ import os
 
 import cv2
 import natsort
-
+import PIL import Image
 
 def files_from_folder(folderpath, ext):
     files = [f for f in glob.glob(os.path.join(folderpath, f"*{ext}"))]
@@ -25,5 +25,8 @@ def show(img):
 
 def unique_permutations(list1, list2):
     # Source From: https://stackoverflow.com/questions/12935194/permutations-between-two-lists-of-unequal-length
-    result = [list(zip(x, list2)) for x in itertools.permutations(list1, len(list2))]
+    result = list(itertools.product(list1, list2))
     return result
+
+
+
