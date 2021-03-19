@@ -26,7 +26,39 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
         ax[1].set_title(f"{os.path.basename(new_path)}")
         plt.pause(0.1)
 
+        prev_crop = crop_detection(prev_img, prev_detection[old])
+        new_crop = crop_detection(new_img, new_detection[new])
+
+        match(prev_crop, new_crop)
     plt.close(fig)
+
+def match(img1, img2):
+    # Source: https://docs.opencv.org/master/dc/dc3/tutorial_py_matcher.html
+
+    img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    orb = cv2.ORB_create()
+    # find the keypoints and descriptors with ORB
+    kp1, des1 = orb.detectAndCompute(img1_gray, None)
+    kp2, des2 = orb.detectAndCompute(img2_gray, None)
+
+    # create BFMatcher object
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+    # Match descriptors.
+    matches = bf.match(des1, des2)
+    # Sort them in the order of their distance.
+    matches = sorted(matches, key=lambda x: x.distance)
+    # Draw first 10 matches.
+    img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches[:10], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    fig_match, ax_match = plt.subplot()
+    plt.imshow(img3)
+    plt.show()
+    plt.close(fig_match)
+
+def crop_detection(img, detection):
+    x1, y1, x2, y2, conf, cls_conf, cls_pred = detection
+    crop = img[int(y1):int(y2), int(x1):int(x2)]
+    return crop
 
 def draw_detection(img, detection, ax):
     ax.imshow(myutils.bgr2rgb(img))
