@@ -15,7 +15,7 @@ def main():
     opt = parser.parse_args()
     print(opt)
 
-    imgs, img_detections = ObjDetector.detections(image_folder=opt.image_folder, batch_size=16)
+    imgs, img_detections = ObjDetector.detections(image_folder=opt.image_folder, batch_size=24)
     print(imgs)
     print(img_detections)
 
