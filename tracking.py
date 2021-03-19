@@ -29,14 +29,15 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
         prev_crop = crop_detection(prev_img, prev_detection[old])
         new_crop = crop_detection(new_img, new_detection[new])
 
-        match(prev_crop, new_crop)
+        keypoint_matching(prev_crop, new_crop)
     plt.close(fig)
 
-def match(img1, img2):
+def keypoint_matching(img1, img2):
     # Source: https://docs.opencv.org/master/dc/dc3/tutorial_py_matcher.html
 
     img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    myutils.show(img1_gray)
     orb = cv2.ORB_create()
     # find the keypoints and descriptors with ORB
     kp1, des1 = orb.detectAndCompute(img1_gray, None)
@@ -49,7 +50,7 @@ def match(img1, img2):
     # Sort them in the order of their distance.
     matches = sorted(matches, key=lambda x: x.distance)
     # Draw first 10 matches.
-    img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches[:10], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches[:10], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
     fig_match, ax_match = plt.subplot()
     plt.imshow(img3)
     plt.show()
@@ -69,6 +70,8 @@ def draw_detection(img, detection, ax):
     bbox = patches.Rectangle((x1, y1), box_w, box_h, linewidth=2, edgecolor="red", facecolor="none")
     # Add the bbox to the plot
     ax.add_patch(bbox)
+    ax.set_xticks([])
+    ax.set_yticks([])
 
 def tracking_by_detection(image_paths, img_detections, size=(640, 480)):
     # Iterate through images and save plot of detections
