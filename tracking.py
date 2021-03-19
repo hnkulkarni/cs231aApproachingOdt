@@ -7,6 +7,9 @@ from matplotlib.ticker import NullLocator
 from cs231aApproachingOdt import utils as myutils
 from PIL import Image
 import os
+
+
+
 def match_detections(prev_path, prev_detection, new_path, new_detection, size=(640, 480)):
     prev_range = [*range(len(prev_detection))]
     new_range = [*range(len(new_detection))]
