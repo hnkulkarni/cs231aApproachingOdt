@@ -24,10 +24,8 @@ def detections(image_folder, batch_size):
     img_size = 416
     conf_thres = 0.8
 
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    os.makedirs("output", exist_ok=True)
     # Set up model
     model = Darknet(model_def, img_size=img_size).to(device)
     # Load darknet weights
@@ -66,6 +64,11 @@ def detections(image_folder, batch_size):
         inference_time = datetime.timedelta(seconds=current_time - prev_time)
         prev_time = current_time
         print(f" {batch_i} : Inference Time =  {inference_time}")
+
+        # Append image paths and detections
+        imgs.extend(img_paths)
+        img_detections.extend(detections)
+
     return imgs, img_detections
 
 
