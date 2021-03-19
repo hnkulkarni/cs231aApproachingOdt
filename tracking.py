@@ -46,7 +46,7 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
         if is_match == True:
             return (old, new)
         else:
-            return False
+            return (-1, -1)
 
 def get_iou(prev_detection, new_detection):
     box1 = new_detection[:4].reshape((1, 4))
