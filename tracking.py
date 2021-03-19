@@ -21,6 +21,7 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
     prev_img = myutils.load_resize(prev_path, size)
     new_img = myutils.load_resize(new_path, size)
 
+    matching_pairs = []
     for old, new in permutations:
         [a.cla() for a in ax]
         draw_detection(prev_img, prev_detection[old], ax[0])
@@ -41,12 +42,12 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
                    'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
         is_match = template_matching(prev_crop, new_crop, methods[3])
-        plt.close(fig)
 
         if is_match == True:
-            return (old, new)
-        else:
-            return (-1, -1)
+            matching_pairs.append((old, new))
+
+    plt.close(fig)
+    return matching_pairs
 
 def get_iou(prev_detection, new_detection):
     box1 = new_detection[:4].reshape((1, 4))
@@ -139,5 +140,6 @@ def tracking_by_detection(image_paths, img_detections, size=(640, 480)):
             print("Initialize Detections")
             continue
 
-        match_detections(prev_path=image_paths[img_i - 1], prev_detection=img_detections[img_i - 1],
+        matching_pairs = match_detections(prev_path=image_paths[img_i - 1], prev_detection=img_detections[img_i - 1],
                          new_path=path, new_detection=detections, size=size)
+        print(matching_pairs)
