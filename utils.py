@@ -32,3 +32,8 @@ def load_resize(f, size):
     img = cv2.resize(img, size)
     return img
 
+def bgr2rgb(img):
+    # Source: https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_matplotlib_rgb_brg_image_load_display_save.php
+    b, g, r = cv2.split(img)  # get b,g,r
+    rgb_img = cv2.merge([r, g, b])  # switch it to rgb
+    return rgb_img
