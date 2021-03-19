@@ -11,7 +11,7 @@ def main():
     print(opt)
 
     image_paths, img_detections = ObjDetector.detections(image_folder=opt.image_folder, batch_size=24)
-    bin_centers, predicted_depth, depth_viz = MonacularDepthAdabins.get_depth(image_paths[0])
+    #bin_centers, predicted_depth, depth_viz = MonacularDepthAdabins.get_depth(image_paths[0])
     tracking.tracking_by_detection(image_paths=image_paths, img_detections=img_detections)
 
 if __name__ == '__main__':
