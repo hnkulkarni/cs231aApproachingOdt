@@ -6,6 +6,7 @@ from cs231aApproachingOdt import tracking
 from cs231aApproachingOdt import utils as myutils
 from PIL import Image
 import cs231aApproachingOdt.mytracking as mytracking
+import os
 
 def main():
     parser = argparse.ArgumentParser()
@@ -21,8 +22,14 @@ def main():
                                                          batch_size=24,
                                                          size=pil_img.size)
     #bin_centers, predicted_depth, depth_viz = MonacularDepthAdabins.get_depth(image_paths[0])
-    tracking.tracking_by_detection(image_paths=image_paths, img_detections=img_detections, size=pil_img.size)
-    #myt = mytracking.TracksSet(image_paths[0], img_detections[0])
+    pickle_track = os.path.join(opt.image_folder, "output/tracks.pickle")
+    if os.path.exists(pickle_track):
+        tracks_dict = myutils.pickle_load(pickle_track)
+    else:
+        tracks_dict = tracking.tracking_by_detection(img_folder=opt.image_folder,
+                                       image_paths=image_paths, img_detections=img_detections, size=pil_img.size)
+        #myt = mytracking.TracksSet(image_paths[0], img_detections[0])
 
+    print(tracks_dict)
 if __name__ == '__main__':
     main()

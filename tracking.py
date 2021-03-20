@@ -46,6 +46,7 @@ def match_detections(prev_path, prev_detection, new_path, new_detection, size=(6
         if is_match == True:
             matching_pairs.append((old, new))
 
+
     plt.close(fig)
     return matching_pairs
 
@@ -134,7 +135,7 @@ def draw_detection(img, detection, ax):
     ax.set_xticks([])
     ax.set_yticks([])
 
-def tracking_by_detection(image_paths, img_detections, size=(640, 480)):
+def tracking_by_detection(img_folder, image_paths, img_detections, size=(640, 480)):
     # Iterate through images and save plot of detections
     print("In Tracking By Detection")
     path_detections_zip = zip(image_paths, img_detections)
@@ -153,5 +154,5 @@ def tracking_by_detection(image_paths, img_detections, size=(640, 480)):
         print(matching_pairs)
         tracks_dict[path] = matching_pairs
 
-    myutils.pickle_save("tracks.pickle", tracks_dict)
+    myutils.pickle_save(os.path.join(img_folder, "output/tracks.pickle"), tracks_dict)
     return tracks_dict
