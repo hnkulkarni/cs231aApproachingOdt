@@ -31,7 +31,7 @@ def main():
         #myt = mytracking.TracksSet(image_paths[0], img_detections[0])
 
 
-
+    MonacularDepthAdabins.detections_depth(image_paths, img_detections )
 
 
 
