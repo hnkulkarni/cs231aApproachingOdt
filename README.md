@@ -10,3 +10,4 @@ Detecting approaching objects is a crucial in many scenarios and has wide applic
 
 Sample output are in the output folder.
 
+![alt text](https://github.com/hnkulkarni/cs231aApproachingOdt/blob/8947d7559683a32a0a7fc10e8973062ae47d857c/output/Output-1.png)
