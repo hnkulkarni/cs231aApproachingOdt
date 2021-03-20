@@ -14,8 +14,5 @@ class TracksSet():
 
 
 class Track():
-    def __init__(self, frame, detection):
-        x1, y1, x2, y2, conf, cls_conf, cls_pred = detection
-        bbox = (x1, y1, x2, y2)
-        self.tracker = cv2.TrackerMIL_create()
-        ok = self.tracker.init(frame, bbox)
+    def __init__(self):
+        self

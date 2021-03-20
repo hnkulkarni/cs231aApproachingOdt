@@ -154,5 +154,5 @@ def tracking_by_detection(img_folder, image_paths, img_detections, size=(640, 48
         print(matching_pairs)
         tracks_dict[path] = matching_pairs
 
-    myutils.pickle_save(os.path.join(img_folder, "output/tracks.pickle"), tracks_dict)
+    myutils.pickle_save(os.path.join(img_folder, "output/tracks.pickle"), (tracks_dict, img_detections))
     return tracks_dict

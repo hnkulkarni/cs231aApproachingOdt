@@ -24,11 +24,16 @@ def main():
     #bin_centers, predicted_depth, depth_viz = MonacularDepthAdabins.get_depth(image_paths[0])
     pickle_track = os.path.join(opt.image_folder, "output/tracks.pickle")
     if os.path.exists(pickle_track):
-        tracks_dict = myutils.pickle_load(pickle_track)
+        tracks_dict, img_detections = myutils.pickle_load(pickle_track)
     else:
         tracks_dict = tracking.tracking_by_detection(img_folder=opt.image_folder,
                                        image_paths=image_paths, img_detections=img_detections, size=pil_img.size)
         #myt = mytracking.TracksSet(image_paths[0], img_detections[0])
+
+
+
+
+
 
     print(tracks_dict)
 if __name__ == '__main__':
